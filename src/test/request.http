@@ -1,19 +1,14 @@
-### Basic GET
-GET http://localhost:8080/hi
-X-login: vasya
-X-password: secret
-
 ### users.getAll
 GET http://localhost:8080/users.getAll
 X-login: vasya
 X-password: secret
 
 ### users.getById
-GET http://localhost:8080/users.getById?id=2
+GET http://localhost:8080/users.getById?id=3
 X-login: vasya
 X-password: secret
 
 ###
-GET http://localhost:8080/users.create?name=Artem
+GET http://localhost:8080/users.create?name=pasha
 X-login: vasya
 X-password: secret
