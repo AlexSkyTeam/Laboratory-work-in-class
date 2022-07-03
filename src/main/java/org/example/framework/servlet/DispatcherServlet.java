@@ -1,14 +1,14 @@
-package org.example.servlet;
+package org.example.framework.servlet;
 
 import jakarta.servlet.*;
-import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.example.attribute.ContextAttributes;
-import org.example.handler.WebHandler;
+import org.example.framework.attribute.ContextAttributes;
+import org.example.framework.handler.WebHandler;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 import java.util.Map;
@@ -19,12 +19,13 @@ public class DispatcherServlet extends HttpServlet {
     private Map<String, WebHandler> handlers;
 
     @Override
-    public void init() throws ServletException {
-        handlers = (Map<String, WebHandler>) getServletContext().getAttribute(ContextAttributes.HANDLERS_CONTEXT_ATTR);
+    public void init() {
+        final ApplicationContext context = (ApplicationContext) (ApplicationContext) getServletContext().getAttribute(ContextAttributes.SPRING_CONTEXT);
+        handlers = (Map<String, WebHandler>) context.getBean("handlers");
     }
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void service(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         final String path = req.getRequestURI().substring(req.getContextPath().length());
 
         final WebHandler handler = handlers.get(path);

@@ -1,4 +1,4 @@
-package org.example.filter;
+package org.example.framework.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -7,8 +7,8 @@ import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.example.attribute.RequestAttributes;
-import org.example.security.Authentication;
+import org.example.framework.attribute.RequestAttributes;
+import org.example.framework.security.Authentication;
 
 import java.io.IOException;
 import java.util.Map;
@@ -23,9 +23,9 @@ public class AuthFilter extends HttpFilter {
     );
 
     @Override
-    protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
-        String login = req.getHeader("X-login");
-        String password = req.getHeader("X-password");
+    protected void doFilter(final HttpServletRequest req, final HttpServletResponse res, final FilterChain chain) throws IOException, ServletException {
+        final String login = req.getHeader("X-login");
+        final String password = req.getHeader("X-password");
         log.debug("login:{}, password:{}", login, password);
 
         if (login == null) {
@@ -48,6 +48,6 @@ public class AuthFilter extends HttpFilter {
         Authentication authentication = new Authentication(login);
         req.setAttribute(RequestAttributes.AUTHEN_ATTR, authentication);
         chain.doFilter(req, res);
-        }
 
+        }
     }
